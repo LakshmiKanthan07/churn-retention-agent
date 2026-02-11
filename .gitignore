@@ -1,0 +1,13 @@
+__pycache__/
+.venv/
+venv/
+env/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+/.vscode/
+data/
+*.sqlite3
+.DS_Store
+/.env
