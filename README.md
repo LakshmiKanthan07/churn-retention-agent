@@ -142,20 +142,6 @@ graph TD
 
 ---
 
-## 👥 Authors & Academic Attribution
-
-**Course:** 22AIE213 – Machine Learning (4th Semester)  
-**Institution:** Amrita Vishwa Vidyapeetham  
-**Instructor:** Dr. G Bharathi Mohan  
-
-### Team 15:
-- **Lakshmi Kanthan S** (CH.SC.U4AIE24041)
-- **Linkesh G** (CH.SC.U4AIE24042)
-- **Suryaa N** (CH.SC.U4AIE24073)
-- **V S Naren Kumar** (CH.SC.U4AIE24077)
-- **Lishanth SS** (CH.SC.U4AIE24083)
-
----
 
 ## 📄 License
 
