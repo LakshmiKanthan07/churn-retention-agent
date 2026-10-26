@@ -1,110 +1,162 @@
-# Drug Toxicity Prediction
+# Autonomous Customer Churn Prediction & Retention Agent
+### Multi-Model Comparative Analysis of Time-to-Event Churn Dynamics in Telecom
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.9%2B-success.svg)](https://www.python.org/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Dataset: Kaggle](https://img.shields.io/badge/Dataset-Telco_Customer_Churn-orange.svg)](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1np0nM8u6BcVoXcLyOT_lbxTv_c8AkIOs?usp=sharing)
 
-## Overview
+---
 
-This repository contains a comprehensive set of tools and Jupyter notebooks for **predicting drug toxicity** using a variety of public bioactivity datasets. The project demonstrates how to preprocess data, train multiple machine learning models, evaluate their performance, and visualise the results.
+## 📌 Executive Summary
 
-## Table of Contents
+In the telecommunications sector, acquiring a new customer is estimated to be **5 to 25 times more expensive** than retaining an existing one. Despite this asymmetry, conventional churn workflows remain **reactive** and suffer from two critical shortcomings:
 
-- [Datasets](#datasets)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Notebooks](#notebooks)
-- [Results & Visualisations](#results--visualisations)
-- [Contributing](#contributing)
-- [License](#license)
+1. **Temporal Blindness:** Static binary classification models only answer *"Will this customer churn in 30 days?"* without modeling customer lifecycle longevity, hazard zones, or discrete **"contract cliff"** events.
+2. **The Action Gap:** Identifying high-risk customers without context-driven, automated intervention results in wasted retention budgets and generic, unread marketing outreach.
 
-## Datasets
+This project delivers a **Hybrid Machine Learning Architecture** that bridges statistical **Survival Analysis (Time-to-Event Modeling)** with **Predictive Classification** and an **Autonomous Agent** to predict churn risk, identify optimal intervention windows, and automatically execute personalized retention strategies.
 
-The project works with several well‑known toxicity‑related datasets:
+---
 
-| Dataset | Description | Source |
-|---------|-------------|--------|
-| **BBBP** | Blood‑Brain Barrier Penetration | <https://pubchem.ncbi.nlm.nih.gov/> |
-| **ClinTox** | Clinical trial outcomes (toxic / non‑toxic) | <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5943005/> |
-| **SIDER** | Side Effect Resource – drug–adverse‑event relationships | <https://sideeffects.embl.de/> |
-| **Tox21** | High‑throughput screening data for 12 toxicity assays | <https://tripod.nih.gov/tox21/> |
-| **NPASS** | Natural product activity & species source | <https://bidd.group/NPASS/> |
+## 🧠 System Architecture
 
-All datasets are automatically downloaded and pre‑processed by the helper scripts located in `data/`.
+```mermaid
+graph TD
+    A[Telco Customer Dataset] --> B[Data Cleaning & Feature Engineering]
+    B --> C[Survival Analysis Engine]
+    B --> D[Supervised Predictive Modeling]
 
-## Installation
+    subgraph Survival Analysis
+        C --> C1[Kaplan-Meier Baseline]
+        C --> C2[Nelson-Aalen Cumulative Hazard]
+        C --> C3[Parametric Fitting: Weibull vs. Log-Normal]
+        C3 --> C4[AIC Goodness-of-Fit Validation]
+    end
 
-1. **Clone the repository**
+    subgraph Predictive Modeling
+        D --> D1[Support Vector Machine / RBF Kernel]
+        D --> D2[Performance: ROC-AUC, Confusion Matrix]
+        D --> D3[Permutation Feature Importance]
+        D --> D4[Calibrated Churn Probabilities]
+    end
+
+    C4 --> E[Autonomous Retention Agent]
+    D4 --> E
+
+    subgraph Autonomous Intervention
+        E --> F1[High-Risk Pool Scanner Churn_Prob > 0.65]
+        E --> F2[Customer Persona Profiling]
+        E --> F3[Dynamic Policy Engine]
+        F3 --> F4[Targeted Personalized Outreach]
+    end
+```
+
+---
+
+## 🔬 Key Components & Methodology
+
+### 1. Survival Analysis (Time-to-Event Dynamics)
+- **Non-Parametric Analysis:** Kaplan-Meier survival curves establish empirical baseline retention across customer tenure. Nelson-Aalen estimators quantify cumulative hazard over time.
+- **Parametric Fitting & Comparison:** Weibull and Log-Normal distribution models are fitted to test whether churn hazard decreases or exhibits heavy-tailed behavior.
+- **Statistical Validation:** Models are evaluated using Akaike Information Criterion (**AIC**) scores to determine optimal parametric fit.
+- **Contract Cliff Identification:** Pinpoints tenure milestones where contract expirations trigger elevated churn hazard.
+
+### 2. Supervised Predictive Churn Classifier
+- **Model:** Support Vector Classifier (SVC with RBF kernel and probability calibration), alongside comparative baselines (XGBoost, Random Forest, Logistic Regression).
+- **Feature Engineering:** Total charges conversion, tenure adjustment ($\epsilon$ smoothing for parametric convergence), tenure-to-contract ratio, and persona tags.
+- **Interpretability:** Permutation feature importance analysis isolates key drivers influencing churn decisions (e.g., tenure, monthly charges, contract structure).
+
+### 3. Autonomous Proactive Retention Agent
+- **Risk Screening:** Real-time scanning for customers exceeding risk thresholds ($\text{Churn Prob} > 0.65$).
+- **Context-Aware Strategy Formulation:**
+  - **Urgent Renewal Offer:** Dispatched when contract expiry cliff is imminent ($\le 1$ month).
+  - **Discount Bundle:** Applied to high-spending accounts ($\text{MonthlyCharges} > \$90$) sensitive to price changes.
+  - **Loyalty Perks:** Rewarded to loyal, lower-spend accounts to maintain engagement.
+- **Automated Communication Dispatch:** Dynamically generates persona-aligned retention messaging.
+
+---
+
+## 📂 Repository Structure
+
+```
+├── datasets/
+│   ├── WA_Fn-UseC_-Telco-Customer-Churn.csv   # Primary Telco churn dataset (IBM / BlastChar)
+│   └── Telco_customer_churn.xlsx             # Extended demographic & churn attributes
+├── Team 15.case study Implementation.ipynb   # Complete pipeline & agent implementation
+├── Team 15.case study Implementation.pdf     # Rendered execution results & figures
+├── Team No 15-Case Study Report.docx         # Comprehensive academic case study report
+├── requirements.txt                          # Project Python dependencies
+├── CONTRIBUTING.md                           # Guidelines for contributions
+├── LICENSE                                   # MIT License
+└── README.md                                 # Project documentation
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Python 3.10+
+- Virtual environment tool (`venv` or `conda`)
+
+### Installation
+
+1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your‑username/drug-toxicity-prediction.git
-   cd drug-toxicity-prediction
+   git clone <REPO_URL>
+   cd <REPO_DIRECTORY>
    ```
 
-2. **Create a Python virtual environment** (recommended)
+2. **Create and activate a virtual environment:**
    ```bash
    python -m venv .venv
-   .venv\Scripts\activate   # Windows
-   # source .venv/bin/activate   # macOS/Linux
+   # Windows (PowerShell):
+   .venv\Scripts\Activate.ps1
+   # Linux / macOS:
+   source .venv/bin/activate
    ```
 
-3. **Install required packages**
+3. **Install dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Install additional system dependencies** (optional but recommended for faster training)
-   - `rdkit` – for chemical fingerprint generation (see the `README_RDKit.md` for installation instructions on Windows).
-
-## Usage
-
-The core workflow is demonstrated in the Jupyter notebooks under `notebooks/`.
-
-```bash
-jupyter notebook
-```
-
-Open any notebook – for example, `notebooks/001_data_preprocessing.ipynb` – and run the cells sequentially. The notebooks are ordered to guide you through:
-
-1. **Data loading & cleaning**
-2. **Feature engineering** (Morgan fingerprints, physicochemical descriptors)
-3. **Model training** (Random Forest, XGBoost, Deep Neural Networks)
-4. **Evaluation** (ROC‑AUC, PR‑AUC, confusion matrices)
-5. **Visualisation** of results and feature importance
-
-All notebooks are self‑contained and include detailed markdown explanations.
-
-## Notebooks
-
-| Notebook | Purpose |
-|----------|---------|
-| `001_data_preprocessing.ipynb` | Load raw CSVs, handle missing values, split into train/validation/test. |
-| `002_feature_engineering.ipynb` | Generate molecular fingerprints and compute descriptor matrices. |
-| `003_model_training.ipynb` | Train multiple classifiers and log hyper‑parameters using `mlflow`. |
-| `004_evaluation.ipynb` | Compute performance metrics, generate ROC/PR curves. |
-| `005_visualisation.ipynb` | Interactive plots (Plotly) for model comparison and feature importance. |
-
-## Results & Visualisations
-
-The `results/` folder contains pre‑generated figures and CSV files summarising model performance across all datasets. Key highlights:
-
-- **Best average ROC‑AUC** across the five datasets: **0.89** (XGBoost with depth 6).
-- **Feature importance** shows that topological fingerprints dominate predictive power, with selected physicochemical descriptors providing complementary information.
-
-You can regenerate these figures by running `004_evaluation.ipynb` followed by `005_visualisation.ipynb`.
-
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository.
-2. Create a new feature branch (`git checkout -b feature/your‑feature`).
-3. Ensure code style compliance (`flake8` and `black`).
-4. Add or update tests in the `tests/` directory.
-5. Submit a pull request with a clear description of your changes.
-
-## License
-
-This project is licensed under the **MIT License** – see the [LICENSE](LICENSE) file for details.
+4. **Run the Notebook:**
+   ```bash
+   jupyter notebook "Team 15.case study Implementation.ipynb"
+   ```
+   *Alternatively, run directly on Google Colab using the badge above.*
 
 ---
 
-*Feel free to open an issue if you encounter any bugs or have suggestions for improvements.*
+## 📊 Dataset Reference
+
+- **Source:** IBM Business Analytics community, hosted on [Kaggle: Telco Customer Churn](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
+- **Sample Size:** 7,043 customer records
+- **Feature Dimensions:** 21 attributes spanning:
+  - **Demographics:** Gender, SeniorCitizen, Partner, Dependents
+  - **Subscribed Services:** PhoneService, MultipleLines, InternetService (DSL/Fiber Optic), OnlineSecurity, TechSupport, Streaming
+  - **Account Metadata:** Contract type (Month-to-month, One year, Two year), PaperlessBilling, PaymentMethod, MonthlyCharges, TotalCharges
+  - **Target:** `Churn` (Yes / No)
+
+---
+
+## 👥 Authors & Academic Attribution
+
+**Course:** 22AIE213 – Machine Learning (4th Semester)  
+**Institution:** Amrita Vishwa Vidyapeetham  
+**Instructor:** Dr. G Bharathi Mohan  
+
+### Team 15:
+- **Lakshmi Kanthan S** (CH.SC.U4AIE24041)
+- **Linkesh G** (CH.SC.U4AIE24042)
+- **Suryaa N** (CH.SC.U4AIE24073)
+- **V S Naren Kumar** (CH.SC.U4AIE24077)
+- **Lishanth SS** (CH.SC.U4AIE24083)
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).

@@ -1,13 +1,26 @@
+# Python & Virtual Environments
 __pycache__/
 .venv/
 venv/
 env/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*$py.class
 .ipynb_checkpoints/
-/.vscode/
-data/
-*.sqlite3
+
+# IDE & OS
+.vscode/
+.idea/
 .DS_Store
-/.env
+Thumbs.db
+
+# Environment variables & sensitive files
+.env
+*.env
+
+# Academic Submission Receipts & Assignment Prompts (Internal / Not for repo)
+PLAGRISM REPORT.pdf
+receipt_mlreport.pdf
+Machine Learning Case Study Report structure.pdf
+* (1).*
+ml report.docx
+mlreport.pdf
